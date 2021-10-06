@@ -2,8 +2,10 @@ package com.cinema
 
 import com.cinema.domain.movie.IMDBRating
 import com.cinema.domain.movie.Movie
+import com.cinema.domain.movie.showtimes.Showtime
 import java.math.BigDecimal
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 fun anyString() = UUID.randomUUID().toString()
@@ -17,3 +19,5 @@ fun anyMovie(id: String = anyString()) = Movie(
 )
 
 fun anyRating() = IMDBRating(rating = BigDecimal.ONE, votes = 10)
+
+fun anyShowtime() = Showtime(id = anyString(), startAt = LocalDateTime.now(), price = BigDecimal.ONE)
