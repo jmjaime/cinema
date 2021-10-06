@@ -1,5 +1,19 @@
 package com.cinema
 
+import com.cinema.domain.movie.IMDBRating
+import com.cinema.domain.movie.Movie
+import java.math.BigDecimal
+import java.time.LocalDate
 import java.util.*
 
 fun anyString() = UUID.randomUUID().toString()
+
+fun anyMovie(id: String = anyString()) = Movie(
+    imdbId = id,
+    name = anyString(),
+    releaseDate = LocalDate.now(),
+    imdbRating = anyRating(),
+    runtime = anyString()
+)
+
+fun anyRating() = IMDBRating(rating = BigDecimal.ONE, votes = 10)
