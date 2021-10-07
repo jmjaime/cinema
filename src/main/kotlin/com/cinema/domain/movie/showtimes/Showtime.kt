@@ -1,11 +1,11 @@
 package com.cinema.domain.movie.showtimes
 
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.DayOfWeek
+import java.time.LocalTime
 
-data class Showtime(val id: String, val startAt: LocalDateTime, val price: BigDecimal) {
+data class Showtime(val dayOfWeek: DayOfWeek, val startAt: LocalTime, val price: BigDecimal) {
     init {
-        check(id.isNotBlank()) { "id is mandatory" }
         check(price > BigDecimal.ZERO) { "price should be grater than 0" }
     }
 }

@@ -1,16 +1,15 @@
 package com.cinema.domain.actions
 
-import com.cinema.domain.IdGenerator
 import com.cinema.domain.errors.MovieNotFound
 import com.cinema.domain.movie.Movies
 import com.cinema.domain.movie.showtimes.MovieSchedule
 import com.cinema.domain.movie.showtimes.MovieSchedules
 import com.cinema.domain.movie.showtimes.Showtime
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.DayOfWeek
+import java.time.LocalTime
 
 class SaveMovieShowTime(
-    private val idGenerator: IdGenerator,
     private val movies: Movies,
     private val movieSchedules: MovieSchedules
 ) {
@@ -29,7 +28,7 @@ class SaveMovieShowTime(
     }
 
     private fun showtimeFrom(request: Request) =
-        Showtime(id = idGenerator.next(), startAt = request.startAt, price = request.price)
+        Showtime(dayOfWeek = request.dayOfWeek, startAt = request.startAt, price = request.price)
 
-    data class Request(val movieId: String, val startAt: LocalDateTime, val price: BigDecimal)
+    data class Request(val movieId: String, val dayOfWeek: DayOfWeek, val startAt: LocalTime, val price: BigDecimal)
 }

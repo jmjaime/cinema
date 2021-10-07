@@ -16,8 +16,12 @@ data class MovieSchedule(val movieId: String, private val showtimes: MutableList
     fun showTimes(): List<Showtime> = showtimes.toList()
 
     fun addShowTime(showtime: Showtime) {
-        showtimes.firstOrNull { it.startAt == showtime.startAt }
-            ?.let { throw ShowTimeAlreadyExists(this.movieId, showtime.startAt) }
+        showtimes.firstOrNull {
+            it.dayOfWeek == showtime.dayOfWeek
+                    && it.startAt == showtime.startAt
+        }?.let {
+            throw ShowTimeAlreadyExists(this.movieId, it.dayOfWeek, showtime.startAt)
+        }
         showtimes.add(showtime)
     }
 }

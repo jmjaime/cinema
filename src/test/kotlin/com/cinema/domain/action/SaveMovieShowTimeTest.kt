@@ -3,7 +3,6 @@ package com.cinema.domain.action
 import com.cinema.anyMovie
 import com.cinema.anyShowtime
 import com.cinema.anyString
-import com.cinema.domain.IdGenerator
 import com.cinema.domain.actions.SaveMovieShowTime
 import com.cinema.domain.errors.MovieNotFound
 import com.cinema.domain.movie.InMemoryMovies
@@ -15,18 +14,12 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.mockito.Mock
-import org.mockito.junit.jupiter.MockitoSettings
-import org.mockito.kotlin.whenever
-import org.mockito.quality.Strictness
 import java.math.BigDecimal.TEN
-import java.time.LocalDateTime
+import java.time.DayOfWeek
+import java.time.LocalTime
 
-@MockitoSettings(strictness = Strictness.STRICT_STUBS)
 class SaveMovieShowTimeTest {
 
-    @Mock
-    private lateinit var idGenerator: IdGenerator
     private lateinit var movies: InMemoryMovies
     private lateinit var movieSchedules: InMemoryMovieSchedules
     private lateinit var saveMovieShowTime: SaveMovieShowTime
@@ -35,14 +28,14 @@ class SaveMovieShowTimeTest {
     fun setUp() {
         movies = InMemoryMovies()
         movieSchedules = InMemoryMovieSchedules()
-        saveMovieShowTime = SaveMovieShowTime(idGenerator, movies, movieSchedules)
+        saveMovieShowTime = SaveMovieShowTime(movies, movieSchedules)
     }
 
     @Test
     fun `cannot save showtime for unknown movie`() {
         val unknownId = anyString()
         val error = assertThrows<MovieNotFound> {
-            saveMovieShowTime(SaveMovieShowTime.Request(unknownId, LocalDateTime.now(), TEN))
+            saveMovieShowTime(SaveMovieShowTime.Request(unknownId, DayOfWeek.MONDAY, LocalTime.now(), TEN))
         }
         Assertions.assertEquals("Movie $unknownId not found", error.message)
 
@@ -50,26 +43,26 @@ class SaveMovieShowTimeTest {
 
     @Test
     fun `can save first showtime for a movie`() {
-        val nextShowTimeId = givenIdGenerator()
+        val dayOfWeek = DayOfWeek.MONDAY
         val movie = givenMovie(id = anyString())
-        val request = SaveMovieShowTime.Request(movie.imdbId, LocalDateTime.now(), TEN)
+        val request = SaveMovieShowTime.Request(movie.imdbId, dayOfWeek, LocalTime.now(), TEN)
 
         val result = saveMovieShowTime(request)
 
-        assertShowtimeCreated(nextShowTimeId, result, request)
+        assertShowtimeCreated(dayOfWeek, result, request)
         assertMovieSchedule(movie, listOf(result))
     }
 
     @Test
     fun `can save a new showtime for a movie`() {
-        val nextShowTimeId = givenIdGenerator()
+        val dayOfWeek = DayOfWeek.SATURDAY
         val movie = givenMovie(id = anyString())
         val showtime = givenShowtime(movie)
-        val request = SaveMovieShowTime.Request(movie.imdbId, LocalDateTime.now(), TEN)
+        val request = SaveMovieShowTime.Request(movie.imdbId, dayOfWeek, LocalTime.now(), TEN)
 
         val result = saveMovieShowTime(request)
 
-        assertShowtimeCreated(nextShowTimeId, result, request)
+        assertShowtimeCreated(dayOfWeek, result, request)
         assertMovieSchedule(movie, listOf(showtime, result))
     }
 
@@ -80,10 +73,6 @@ class SaveMovieShowTimeTest {
         ).apply {
             movieSchedules.save(this)
         }
-    }
-
-    private fun givenIdGenerator() = anyString().also {
-        whenever(idGenerator.next()).thenReturn(it)
     }
 
     private fun givenMovie(id: String): Movie = anyMovie(id = id).also { movies.save(it) }
@@ -101,11 +90,11 @@ class SaveMovieShowTimeTest {
     }
 
     private fun assertShowtimeCreated(
-        nextShowTimeId: String,
+        dayOfWeek: DayOfWeek,
         result: Showtime,
         request: SaveMovieShowTime.Request
     ) {
-        Assertions.assertEquals(nextShowTimeId, result.id)
+        Assertions.assertEquals(dayOfWeek, result.dayOfWeek)
         Assertions.assertEquals(request.price, result.price)
         Assertions.assertEquals(request.startAt, result.startAt)
     }
