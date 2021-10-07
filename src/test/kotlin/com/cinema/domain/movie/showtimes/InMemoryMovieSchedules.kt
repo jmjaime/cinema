@@ -9,4 +9,6 @@ class InMemoryMovieSchedules(
     override fun save(movieSchedule: MovieSchedule) {
         schedules[movieSchedule.movieId] = movieSchedule
     }
+
+    override fun findAll() = schedules.values.toList()
 }
