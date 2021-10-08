@@ -13,9 +13,9 @@ data class MovieSchedule(val movieId: String, private val showtimes: MutableList
         check(movieId.isNotBlank()) { "movieId is mandatory" }
     }
 
-    fun showTimes(): List<Showtime> = showtimes.toList()
+    fun showtimes(): List<Showtime> = showtimes.toList()
 
-    fun addShowTime(showtime: Showtime) {
+    fun addShowtime(showtime: Showtime) {
         showtimes.firstOrNull {
             it.dayOfWeek == showtime.dayOfWeek
                     && it.startAt == showtime.startAt

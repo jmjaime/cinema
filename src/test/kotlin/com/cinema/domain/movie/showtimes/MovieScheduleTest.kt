@@ -35,9 +35,9 @@ class MovieScheduleTest {
         val showtime2 = showtime1.copy(startAt = showtime1.startAt.plusHours(4))
         val schedule = MovieSchedule(movieId = anyString(), showtimes = mutableListOf(showtime1))
 
-        schedule.addShowTime(showtime2)
+        schedule.addShowtime(showtime2)
 
-        Assertions.assertEquals(listOf(showtime1, showtime2), schedule.showTimes())
+        Assertions.assertEquals(listOf(showtime1, showtime2), schedule.showtimes())
     }
 
     @Test
@@ -45,7 +45,7 @@ class MovieScheduleTest {
         val showtime = anyShowtime()
         val schedule = MovieSchedule(movieId = anyString(), showtimes = mutableListOf(showtime))
         val error = assertThrows<ShowTimeAlreadyExists> {
-            schedule.addShowTime(showtime)
+            schedule.addShowtime(showtime)
         }
         Assertions.assertEquals("Already exists showtime for movie ${schedule.movieId} at ${showtime.startAt}", error.message)
 

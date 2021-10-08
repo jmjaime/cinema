@@ -17,7 +17,7 @@ class SaveMovieShowTime(
     operator fun invoke(request: Request): Showtime {
         val schedule = findSchedule(request)
         val showtime = showtimeFrom(request)
-        schedule.addShowTime(showtime)
+        schedule.addShowtime(showtime)
         movieSchedules.save(schedule)
         return showtime
     }

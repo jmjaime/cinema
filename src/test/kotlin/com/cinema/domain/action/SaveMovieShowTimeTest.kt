@@ -79,13 +79,13 @@ class SaveMovieShowTimeTest {
 
     private fun assertMovieSchedule(
         movie: Movie,
-        expectedShowTimes: List<Showtime>
+        expectedShowtimes: List<Showtime>
     ) {
         val movieSchedule = movieSchedules.findById(movie.imdbId)
         Assertions.assertNotNull(movieSchedule)
         with(checkNotNull(movieSchedule)) {
             Assertions.assertEquals(movie.imdbId, movieId)
-            Assertions.assertEquals(expectedShowTimes, showTimes())
+            Assertions.assertEquals(expectedShowtimes, showtimes())
         }
     }
 

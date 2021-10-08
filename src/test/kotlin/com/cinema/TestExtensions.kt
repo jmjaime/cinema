@@ -6,7 +6,6 @@ import com.cinema.domain.movie.showtimes.Showtime
 import java.math.BigDecimal
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.*
 

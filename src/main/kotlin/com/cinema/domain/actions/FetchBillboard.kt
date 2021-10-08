@@ -10,7 +10,7 @@ class FetchBillboard(
 ) {
 
     operator fun invoke(): Billboard {
-        val movieSchedulesWithProjections = movieSchedules.findAll().filter { it.showTimes().isNotEmpty() }
+        val movieSchedulesWithProjections = movieSchedules.findAll().filter { it.showtimes().isNotEmpty() }
         val availableMovies = movies.findByIdIn(movieSchedulesWithProjections.map { it.movieId })
         return Billboard(availableMovies)
     }
