@@ -1,16 +1,18 @@
 package com.cinema.domain.actions
 
 import com.cinema.domain.errors.MovieAlreadyRated
-import com.cinema.domain.errors.MovieNotFound
-import com.cinema.domain.movie.Movies
+import com.cinema.domain.movie.MovieLocator
 import com.cinema.domain.rating.CustomerVote
 import com.cinema.domain.rating.CustomerVotes
 import com.cinema.domain.rating.Rating
 
-class RateMovie(private val movies: Movies, private val customerVotes: CustomerVotes) {
+class RateMovie(
+    private val movieLocator: MovieLocator,
+    private val customerVotes: CustomerVotes
+) {
 
     operator fun invoke(request: Request) {
-        val movie = movies.findById(request.movieId) ?: throw MovieNotFound(movieId = request.movieId)
+        val movie = movieLocator.findMovie(request.movieId)
         customerVotes.findByCustomerAndMovieId(request.customer, movie.imdbId)
             ?.let { throw MovieAlreadyRated(movie.imdbId) }
         customerVotes.save(

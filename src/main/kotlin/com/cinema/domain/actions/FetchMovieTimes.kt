@@ -1,7 +1,6 @@
 package com.cinema.domain.actions
 
-import com.cinema.domain.errors.MovieNotFound
-import com.cinema.domain.movie.Movies
+import com.cinema.domain.movie.MovieLocator
 import com.cinema.domain.movie.showtimes.MovieProjection
 import com.cinema.domain.movie.showtimes.MovieSchedules
 import com.cinema.domain.movie.showtimes.Showtime
@@ -9,14 +8,14 @@ import java.time.Clock
 import java.time.LocalDate
 import java.time.temporal.TemporalAdjusters
 
-class FetchMovieTimes (
-    private val movies: Movies,
+class FetchMovieTimes(
+    private val movieLocator: MovieLocator,
     private val movieSchedules: MovieSchedules,
     private val clock: Clock
 ) {
 
     operator fun invoke(request: Request): List<MovieProjection> {
-        val movie = movies.findById(request.movieId) ?: throw MovieNotFound(movieId = request.movieId)
+        val movie = movieLocator.findMovie(request.movieId)
         val showTimes = movieSchedules.findById(movie.imdbId)?.showtimes() ?: emptyList()
         return nextMovieProjections(showTimes)
     }

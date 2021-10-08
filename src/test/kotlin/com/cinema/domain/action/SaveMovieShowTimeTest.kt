@@ -1,16 +1,17 @@
 package com.cinema.domain.action
 
-import com.cinema.anyMovie
 import com.cinema.anyShowtime
 import com.cinema.anyString
 import com.cinema.domain.actions.SaveMovieShowTime
 import com.cinema.domain.errors.MovieNotFound
 import com.cinema.domain.movie.InMemoryMovies
 import com.cinema.domain.movie.Movie
+import com.cinema.domain.movie.MovieLocator
 import com.cinema.domain.movie.Price
 import com.cinema.domain.movie.showtimes.InMemoryMovieSchedules
 import com.cinema.domain.movie.showtimes.MovieSchedule
 import com.cinema.domain.movie.showtimes.Showtime
+import com.cinema.givenPersistedMovie
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -29,7 +30,7 @@ class SaveMovieShowTimeTest {
     fun setUp() {
         movies = InMemoryMovies()
         movieSchedules = InMemoryMovieSchedules()
-        saveMovieShowTime = SaveMovieShowTime(movies, movieSchedules)
+        saveMovieShowTime = SaveMovieShowTime(MovieLocator(movies), movieSchedules)
     }
 
     @Test
@@ -45,7 +46,7 @@ class SaveMovieShowTimeTest {
     @Test
     fun `can save first showtime for a movie`() {
         val dayOfWeek = DayOfWeek.MONDAY
-        val movie = givenMovie(id = anyString())
+        val movie = givenPersistedMovie(movies)
         val request = SaveMovieShowTime.Request(movie.imdbId, dayOfWeek, LocalTime.now(), TEN)
 
         val result = saveMovieShowTime(request)
@@ -57,7 +58,7 @@ class SaveMovieShowTimeTest {
     @Test
     fun `can save a new showtime for a movie`() {
         val dayOfWeek = DayOfWeek.SATURDAY
-        val movie = givenMovie(id = anyString())
+        val movie = givenPersistedMovie(movies)
         val showtime = givenShowtime(movie)
         val request = SaveMovieShowTime.Request(movie.imdbId, dayOfWeek, LocalTime.now(), TEN)
 
@@ -75,8 +76,6 @@ class SaveMovieShowTimeTest {
             movieSchedules.save(this)
         }
     }
-
-    private fun givenMovie(id: String): Movie = anyMovie(id = id).also { movies.save(it) }
 
     private fun assertMovieSchedule(
         movie: Movie,

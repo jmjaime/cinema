@@ -1,9 +1,9 @@
 package com.cinema.domain.action
 
-import com.cinema.anyMovie
 import com.cinema.domain.actions.FetchMovies
 import com.cinema.domain.movie.InMemoryMovies
 import com.cinema.domain.movie.Movie
+import com.cinema.givenPersistedMovie
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -38,9 +38,8 @@ class FetchMoviesTest {
     private fun givenMovies(length: Int = 3): List<Movie> {
         val availableMovies = mutableListOf<Movie>()
         repeat(length) {
-            anyMovie().also {
-                movies.save(it)
-                availableMovies.add(it)
+            givenPersistedMovie(movies).apply {
+                availableMovies.add(this)
             }
         }
         return availableMovies

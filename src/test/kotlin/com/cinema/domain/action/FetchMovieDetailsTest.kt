@@ -1,11 +1,11 @@
 package com.cinema.domain.action
 
-import com.cinema.anyMovie
 import com.cinema.anyString
 import com.cinema.domain.actions.FetchMovieDetails
 import com.cinema.domain.errors.MovieNotFound
 import com.cinema.domain.movie.InMemoryMovies
-import com.cinema.domain.movie.Movie
+import com.cinema.domain.movie.MovieLocator
+import com.cinema.givenPersistedMovie
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -19,15 +19,14 @@ class FetchMovieDetailsTest {
     @BeforeEach
     fun setUp() {
         movies = InMemoryMovies()
-        fetchMovieDetails = FetchMovieDetails(movies = movies)
+        fetchMovieDetails = FetchMovieDetails(MovieLocator(movies))
     }
 
     @Test
     fun `can fetch movie details`() {
-        val id = "tt0232500"
-        val movie = givenMovie(id = id)
+        val movie = givenPersistedMovie(movies)
 
-        val result = fetchMovieDetails(FetchMovieDetails.Request(id = id))
+        val result = fetchMovieDetails(FetchMovieDetails.Request(id = movie.imdbId))
 
         Assertions.assertEquals(movie, result)
     }
@@ -41,8 +40,5 @@ class FetchMovieDetailsTest {
         Assertions.assertEquals("Movie $id not found", error.message)
 
     }
-
-    private fun givenMovie(id: String): Movie = anyMovie(id = id).also { movies.save(it) }
-
 
 }

@@ -1,6 +1,7 @@
 package com.cinema
 
 import com.cinema.domain.movie.IMDBRating
+import com.cinema.domain.movie.InMemoryMovies
 import com.cinema.domain.movie.Movie
 import com.cinema.domain.movie.Price
 import com.cinema.domain.movie.showtimes.Showtime
@@ -19,6 +20,8 @@ fun anyMovie(id: String = anyString()) = Movie(
     imdbRating = anyRating(),
     runtime = anyString()
 )
+
+fun givenPersistedMovie(movies: InMemoryMovies, movie: Movie = anyMovie()) = movie.also { movies.save(it) }
 
 fun anyRating() = IMDBRating(rating = BigDecimal.ONE, votes = 10)
 

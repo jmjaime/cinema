@@ -1,7 +1,6 @@
 package com.cinema.domain.actions
 
-import com.cinema.domain.errors.MovieNotFound
-import com.cinema.domain.movie.Movies
+import com.cinema.domain.movie.MovieLocator
 import com.cinema.domain.movie.Price
 import com.cinema.domain.movie.showtimes.MovieSchedule
 import com.cinema.domain.movie.showtimes.MovieSchedules
@@ -11,7 +10,7 @@ import java.time.DayOfWeek
 import java.time.LocalTime
 
 class SaveMovieShowTime(
-    private val movies: Movies,
+    private val movieLocator: MovieLocator,
     private val movieSchedules: MovieSchedules
 ) {
 
@@ -24,7 +23,7 @@ class SaveMovieShowTime(
     }
 
     private fun findSchedule(request: Request): MovieSchedule {
-        val movie = movies.findById(request.movieId) ?: throw MovieNotFound(movieId = request.movieId)
+        val movie = movieLocator.findMovie(request.movieId)
         return movieSchedules.findById(movie.imdbId) ?: MovieSchedule.scheduleFor(movie = movie)
     }
 

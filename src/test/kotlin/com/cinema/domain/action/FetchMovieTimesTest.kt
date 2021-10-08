@@ -1,16 +1,17 @@
 package com.cinema.domain.action
 
-import com.cinema.anyMovie
 import com.cinema.anyString
 import com.cinema.domain.actions.FetchMovieTimes
 import com.cinema.domain.errors.MovieNotFound
 import com.cinema.domain.movie.InMemoryMovies
 import com.cinema.domain.movie.Movie
+import com.cinema.domain.movie.MovieLocator
 import com.cinema.domain.movie.Price
 import com.cinema.domain.movie.showtimes.InMemoryMovieSchedules
 import com.cinema.domain.movie.showtimes.MovieProjection
 import com.cinema.domain.movie.showtimes.MovieSchedule
 import com.cinema.domain.movie.showtimes.Showtime
+import com.cinema.givenPersistedMovie
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -35,20 +36,19 @@ class FetchMovieTimesTest {
         movies = InMemoryMovies()
         movieSchedules = InMemoryMovieSchedules()
         clock = Clock.fixed(now, ZoneId.systemDefault())
-        fetchMovieTimes = FetchMovieTimes(movies, movieSchedules, clock)
+        fetchMovieTimes = FetchMovieTimes(MovieLocator(movies), movieSchedules, clock)
     }
 
     @Test
     fun `can fetch movie times`() {
-        val id = anyString()
         val mondayShowtime =
             Showtime(dayOfWeek = DayOfWeek.MONDAY, startAt = LocalTime.now(), price = Price(BigDecimal.ONE))
         val fridayShowtime =
             Showtime(dayOfWeek = DayOfWeek.FRIDAY, startAt = LocalTime.now(), price = Price(BigDecimal.TEN))
-        val movie = givenMovie(id = id)
+        val movie = givenPersistedMovie(movies)
         val movieSchedule = givenSchedule(movie, listOf(mondayShowtime, fridayShowtime))
 
-        val result = fetchMovieTimes(FetchMovieTimes.Request(movieId = id))
+        val result = fetchMovieTimes(FetchMovieTimes.Request(movieId = movie.imdbId))
 
         val expectedMovieProjections = expectedMovieProjections(movieSchedule)
         Assertions.assertEquals(expectedMovieProjections, result)
@@ -66,14 +66,11 @@ class FetchMovieTimesTest {
 
     @Test
     fun `when there are not showtimes, it returns empty`() {
-        val id = anyString()
-        givenMovie(id = id)
-        val result = fetchMovieTimes(FetchMovieTimes.Request(movieId = id))
+        val movie = givenPersistedMovie(movies)
+        val result = fetchMovieTimes(FetchMovieTimes.Request(movieId = movie.imdbId))
 
         Assertions.assertTrue(result.isEmpty())
     }
-
-    private fun givenMovie(id: String): Movie = anyMovie(id = id).also { movies.save(it) }
 
     private fun givenSchedule(movie: Movie, showtimes: List<Showtime>) =
         MovieSchedule(

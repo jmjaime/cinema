@@ -1,14 +1,13 @@
 package com.cinema.domain.action
 
-import com.cinema.anyMovie
 import com.cinema.anyShowtime
-import com.cinema.anyString
 import com.cinema.domain.actions.FetchBillboard
 import com.cinema.domain.billboard.Billboard
 import com.cinema.domain.movie.InMemoryMovies
 import com.cinema.domain.movie.Movie
 import com.cinema.domain.movie.showtimes.InMemoryMovieSchedules
 import com.cinema.domain.movie.showtimes.MovieSchedule
+import com.cinema.givenPersistedMovie
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -29,7 +28,7 @@ class FetchBillboardTes {
 
     @Test
     fun `can fetch billboard`() {
-        val availableMovies = listOf(givenMovie(anyString()), givenMovie(anyString()))
+        val availableMovies = listOf(givenPersistedMovie(movies), givenPersistedMovie(movies))
         availableMovies.forEach { givenScheduleFor(it) }
 
         val billboard = fetchBillboard()
@@ -39,7 +38,7 @@ class FetchBillboardTes {
 
     @Test
     fun `can fetch empty billboard`() {
-        givenMovie(anyString())
+        givenPersistedMovie(movies)
         val billboard = fetchBillboard()
         Assertions.assertEquals(Billboard(emptyList()), billboard)
     }
@@ -51,7 +50,5 @@ class FetchBillboardTes {
         movieSchedules.save(this)
     }
 
-
-    private fun givenMovie(id: String): Movie = anyMovie(id = id).also { movies.save(it) }
 
 }
