@@ -7,6 +7,7 @@ import com.cinema.domain.actions.SaveMovieShowTime
 import com.cinema.domain.errors.MovieNotFound
 import com.cinema.domain.movie.InMemoryMovies
 import com.cinema.domain.movie.Movie
+import com.cinema.domain.movie.Price
 import com.cinema.domain.movie.showtimes.InMemoryMovieSchedules
 import com.cinema.domain.movie.showtimes.MovieSchedule
 import com.cinema.domain.movie.showtimes.Showtime
@@ -95,7 +96,7 @@ class SaveMovieShowTimeTest {
         request: SaveMovieShowTime.Request
     ) {
         Assertions.assertEquals(dayOfWeek, result.dayOfWeek)
-        Assertions.assertEquals(request.price, result.price)
+        Assertions.assertEquals(Price(request.price), result.price)
         Assertions.assertEquals(request.startAt, result.startAt)
     }
 

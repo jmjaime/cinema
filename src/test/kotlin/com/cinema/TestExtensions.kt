@@ -2,6 +2,7 @@ package com.cinema
 
 import com.cinema.domain.movie.IMDBRating
 import com.cinema.domain.movie.Movie
+import com.cinema.domain.movie.Price
 import com.cinema.domain.movie.showtimes.Showtime
 import java.math.BigDecimal
 import java.time.DayOfWeek
@@ -21,4 +22,4 @@ fun anyMovie(id: String = anyString()) = Movie(
 
 fun anyRating() = IMDBRating(rating = BigDecimal.ONE, votes = 10)
 
-fun anyShowtime() = Showtime(dayOfWeek = DayOfWeek.FRIDAY, startAt = LocalTime.now(), price = BigDecimal.ONE)
+fun anyShowtime() = Showtime(dayOfWeek = DayOfWeek.FRIDAY, startAt = LocalTime.now(), price = Price(BigDecimal.ONE))

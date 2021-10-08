@@ -2,6 +2,7 @@ package com.cinema.domain.actions
 
 import com.cinema.domain.errors.MovieNotFound
 import com.cinema.domain.movie.Movies
+import com.cinema.domain.movie.Price
 import com.cinema.domain.movie.showtimes.MovieSchedule
 import com.cinema.domain.movie.showtimes.MovieSchedules
 import com.cinema.domain.movie.showtimes.Showtime
@@ -28,7 +29,7 @@ class SaveMovieShowTime(
     }
 
     private fun showtimeFrom(request: Request) =
-        Showtime(dayOfWeek = request.dayOfWeek, startAt = request.startAt, price = request.price)
+        Showtime(dayOfWeek = request.dayOfWeek, startAt = request.startAt, price = Price(request.price))
 
     data class Request(val movieId: String, val dayOfWeek: DayOfWeek, val startAt: LocalTime, val price: BigDecimal)
 }

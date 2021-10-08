@@ -6,6 +6,7 @@ import com.cinema.domain.actions.FetchMovieTimes
 import com.cinema.domain.errors.MovieNotFound
 import com.cinema.domain.movie.InMemoryMovies
 import com.cinema.domain.movie.Movie
+import com.cinema.domain.movie.Price
 import com.cinema.domain.movie.showtimes.InMemoryMovieSchedules
 import com.cinema.domain.movie.showtimes.MovieProjection
 import com.cinema.domain.movie.showtimes.MovieSchedule
@@ -40,8 +41,10 @@ class FetchMovieTimesTest {
     @Test
     fun `can fetch movie times`() {
         val id = anyString()
-        val mondayShowtime = Showtime(dayOfWeek = DayOfWeek.MONDAY, startAt = LocalTime.now(), price = BigDecimal.ONE)
-        val fridayShowtime = Showtime(dayOfWeek = DayOfWeek.FRIDAY, startAt = LocalTime.now(), price = BigDecimal.ONE)
+        val mondayShowtime =
+            Showtime(dayOfWeek = DayOfWeek.MONDAY, startAt = LocalTime.now(), price = Price(BigDecimal.ONE))
+        val fridayShowtime =
+            Showtime(dayOfWeek = DayOfWeek.FRIDAY, startAt = LocalTime.now(), price = Price(BigDecimal.TEN))
         val movie = givenMovie(id = id)
         val movieSchedule = givenSchedule(movie, listOf(mondayShowtime, fridayShowtime))
 
