@@ -3,9 +3,9 @@ package com.cinema.domain.action
 import com.cinema.anyShowtime
 import com.cinema.domain.actions.FetchBillboard
 import com.cinema.domain.billboard.Billboard
-import com.cinema.domain.movie.InMemoryMovies
+import com.cinema.infrastructure.persistence.memory.InMemoryMovies
 import com.cinema.domain.movie.Movie
-import com.cinema.domain.movie.showtimes.InMemoryMovieSchedules
+import com.cinema.infrastructure.persistence.memory.InMemoryMovieSchedules
 import com.cinema.domain.movie.showtimes.MovieSchedule
 import com.cinema.givenPersistedMovie
 import org.junit.jupiter.api.Assertions

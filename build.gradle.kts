@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.5.31"
+    kotlin("plugin.serialization") version "1.5.31"
 }
 
 group = "com.cinema"
@@ -9,14 +10,30 @@ repositories {
     mavenCentral()
 }
 
+val koinVersion = "3.1.2"
+val ktorVersion = "1.6.4"
+
 dependencies {
-    implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.31")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+
+    implementation("io.insert-koin:koin-core:$koinVersion")
+    implementation("io.insert-koin:koin-ktor:$koinVersion")
+    implementation("io.insert-koin:koin-logger-slf4j:$koinVersion")
+    implementation("io.ktor:ktor-server-netty:$ktorVersion")
+    implementation("io.ktor:ktor-serialization:$ktorVersion")
+    runtimeOnly("ch.qos.logback:logback-classic:1.2.1")
+
 
     testImplementation(platform("org.junit:junit-bom:5.8.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
-    testImplementation("org.mockito:mockito-core:3.12.1")
-    testImplementation("org.mockito:mockito-junit-jupiter:3.12.1")
+    testImplementation("org.mockito:mockito-core:3.12.4")
+    testImplementation("org.mockito:mockito-junit-jupiter:3.12.4")
+    testImplementation("io.insert-koin:koin-test-junit5:$koinVersion")
+    testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
+
 }
 
 tasks.test {

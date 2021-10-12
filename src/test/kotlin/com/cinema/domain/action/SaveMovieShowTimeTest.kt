@@ -4,11 +4,11 @@ import com.cinema.anyShowtime
 import com.cinema.anyString
 import com.cinema.domain.actions.SaveMovieShowTime
 import com.cinema.domain.errors.MovieNotFound
-import com.cinema.domain.movie.InMemoryMovies
+import com.cinema.infrastructure.persistence.memory.InMemoryMovies
 import com.cinema.domain.movie.Movie
 import com.cinema.domain.movie.MovieLocator
 import com.cinema.domain.movie.Price
-import com.cinema.domain.movie.showtimes.InMemoryMovieSchedules
+import com.cinema.infrastructure.persistence.memory.InMemoryMovieSchedules
 import com.cinema.domain.movie.showtimes.MovieSchedule
 import com.cinema.domain.movie.showtimes.Showtime
 import com.cinema.givenPersistedMovie

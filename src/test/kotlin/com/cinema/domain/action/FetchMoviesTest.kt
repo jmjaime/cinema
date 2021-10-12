@@ -1,7 +1,7 @@
 package com.cinema.domain.action
 
 import com.cinema.domain.actions.FetchMovies
-import com.cinema.domain.movie.InMemoryMovies
+import com.cinema.infrastructure.persistence.memory.InMemoryMovies
 import com.cinema.domain.movie.Movie
 import com.cinema.givenPersistedMovie
 import org.junit.jupiter.api.Assertions

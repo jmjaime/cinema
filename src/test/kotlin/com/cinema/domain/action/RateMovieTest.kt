@@ -4,10 +4,10 @@ import com.cinema.anyString
 import com.cinema.domain.actions.RateMovie
 import com.cinema.domain.errors.MovieAlreadyRated
 import com.cinema.domain.errors.MovieNotFound
-import com.cinema.domain.movie.InMemoryMovies
+import com.cinema.infrastructure.persistence.memory.InMemoryMovies
 import com.cinema.domain.movie.MovieLocator
 import com.cinema.domain.rating.CustomerVotes
-import com.cinema.domain.rating.InMemoryCustomerVotes
+import com.cinema.infrastructure.persistence.memory.InMemoryCustomerVotes
 import com.cinema.domain.rating.Rating
 import com.cinema.givenPersistedMovie
 import org.junit.jupiter.api.Assertions

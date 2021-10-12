@@ -1,4 +1,7 @@
-package com.cinema.domain.movie.showtimes
+package com.cinema.infrastructure.persistence.memory
+
+import com.cinema.domain.movie.showtimes.MovieSchedule
+import com.cinema.domain.movie.showtimes.MovieSchedules
 
 class InMemoryMovieSchedules(
     private val schedules: MutableMap<String, MovieSchedule> = mutableMapOf()

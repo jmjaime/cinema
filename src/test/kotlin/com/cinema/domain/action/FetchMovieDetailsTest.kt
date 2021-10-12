@@ -3,7 +3,7 @@ package com.cinema.domain.action
 import com.cinema.anyString
 import com.cinema.domain.actions.FetchMovieDetails
 import com.cinema.domain.errors.MovieNotFound
-import com.cinema.domain.movie.InMemoryMovies
+import com.cinema.infrastructure.persistence.memory.InMemoryMovies
 import com.cinema.domain.movie.MovieLocator
 import com.cinema.givenPersistedMovie
 import org.junit.jupiter.api.Assertions
