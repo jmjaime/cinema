@@ -34,7 +34,9 @@ fun Application.routes() {
     install(DefaultHeaders)
     install(ContentNegotiation) {
         json(
-            Json { ignoreUnknownKeys = true }
+            Json {
+                ignoreUnknownKeys = true
+            }
         )
     }
     cinemaRoutes()

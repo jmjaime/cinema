@@ -4,6 +4,7 @@ import com.cinema.domain.config.actionsModule
 import com.cinema.domain.config.moviesModule
 import com.cinema.infrastructure.persistence.persistenceTestModule
 import com.cinema.infrastructure.rest.restModule
+import com.cinema.infrastructure.system.systemModule
 import com.cinema.routes
 import io.ktor.application.*
 import io.ktor.features.*
@@ -16,7 +17,7 @@ fun Application.modulesForTest() {
     install(CallLogging)
     install(Koin) {
         SLF4JLogger()
-        modules(moviesModule, actionsModule, restModule, persistenceTestModule)
+        modules(moviesModule, actionsModule, restModule, persistenceTestModule, systemModule)
     }
     routes()
 }
