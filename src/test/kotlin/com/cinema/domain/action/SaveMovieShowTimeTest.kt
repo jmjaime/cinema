@@ -2,7 +2,7 @@ package com.cinema.domain.action
 
 import com.cinema.anyShowtime
 import com.cinema.anyString
-import com.cinema.domain.actions.SaveMovieShowTime
+import com.cinema.domain.actions.SaveMovieShowtime
 import com.cinema.domain.errors.MovieNotFound
 import com.cinema.infrastructure.persistence.memory.InMemoryMovies
 import com.cinema.domain.movie.Movie
@@ -24,20 +24,20 @@ class SaveMovieShowTimeTest {
 
     private lateinit var movies: InMemoryMovies
     private lateinit var movieSchedules: InMemoryMovieSchedules
-    private lateinit var saveMovieShowTime: SaveMovieShowTime
+    private lateinit var saveMovieShowTime: SaveMovieShowtime
 
     @BeforeEach
     fun setUp() {
         movies = InMemoryMovies()
         movieSchedules = InMemoryMovieSchedules()
-        saveMovieShowTime = SaveMovieShowTime(MovieLocator(movies), movieSchedules)
+        saveMovieShowTime = SaveMovieShowtime(MovieLocator(movies), movieSchedules)
     }
 
     @Test
     fun `cannot save showtime for unknown movie`() {
         val unknownId = anyString()
         val error = assertThrows<MovieNotFound> {
-            saveMovieShowTime(SaveMovieShowTime.Request(unknownId, DayOfWeek.MONDAY, LocalTime.now(), TEN))
+            saveMovieShowTime(SaveMovieShowtime.Request(unknownId, DayOfWeek.MONDAY, LocalTime.now(), Price(TEN)))
         }
         Assertions.assertEquals("Movie $unknownId not found", error.message)
 
@@ -47,7 +47,7 @@ class SaveMovieShowTimeTest {
     fun `can save first showtime for a movie`() {
         val dayOfWeek = DayOfWeek.MONDAY
         val movie = givenPersistedMovie(movies)
-        val request = SaveMovieShowTime.Request(movie.imdbId, dayOfWeek, LocalTime.now(), TEN)
+        val request = SaveMovieShowtime.Request(movie.imdbId, dayOfWeek, LocalTime.now(), Price(TEN))
 
         val result = saveMovieShowTime(request)
 
@@ -60,7 +60,7 @@ class SaveMovieShowTimeTest {
         val dayOfWeek = DayOfWeek.SATURDAY
         val movie = givenPersistedMovie(movies)
         val showtime = givenShowtime(movie)
-        val request = SaveMovieShowTime.Request(movie.imdbId, dayOfWeek, LocalTime.now(), TEN)
+        val request = SaveMovieShowtime.Request(movie.imdbId, dayOfWeek, LocalTime.now(), Price(TEN))
 
         val result = saveMovieShowTime(request)
 
@@ -92,10 +92,10 @@ class SaveMovieShowTimeTest {
     private fun assertShowtimeCreated(
         dayOfWeek: DayOfWeek,
         result: Showtime,
-        request: SaveMovieShowTime.Request
+        request: SaveMovieShowtime.Request
     ) {
         Assertions.assertEquals(dayOfWeek, result.dayOfWeek)
-        Assertions.assertEquals(Price(request.price), result.price)
+        Assertions.assertEquals(request.price, result.price)
         Assertions.assertEquals(request.startAt, result.startAt)
     }
 

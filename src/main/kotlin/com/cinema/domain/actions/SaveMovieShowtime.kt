@@ -9,7 +9,7 @@ import java.math.BigDecimal
 import java.time.DayOfWeek
 import java.time.LocalTime
 
-class SaveMovieShowTime(
+class SaveMovieShowtime(
     private val movieLocator: MovieLocator,
     private val movieSchedules: MovieSchedules
 ) {
@@ -28,7 +28,7 @@ class SaveMovieShowTime(
     }
 
     private fun showtimeFrom(request: Request) =
-        Showtime(dayOfWeek = request.dayOfWeek, startAt = request.startAt, price = Price(request.price))
+        Showtime(dayOfWeek = request.dayOfWeek, startAt = request.startAt, price = request.price)
 
-    data class Request(val movieId: String, val dayOfWeek: DayOfWeek, val startAt: LocalTime, val price: BigDecimal)
+    data class Request(val movieId: String, val dayOfWeek: DayOfWeek, val startAt: LocalTime, val price: Price)
 }
