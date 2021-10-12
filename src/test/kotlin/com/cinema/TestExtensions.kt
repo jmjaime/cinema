@@ -8,7 +8,6 @@ import com.cinema.domain.movie.showtimes.Showtime
 import com.cinema.infrastructure.persistence.memory.InMemoryMovies
 import java.math.BigDecimal
 import java.time.DayOfWeek
-import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 
@@ -17,14 +16,14 @@ fun anyString() = UUID.randomUUID().toString()
 fun anyMovie(id: String = anyString()) = Movie(
     imdbId = id,
     name = anyString(),
-    releaseDate = LocalDate.now(),
+    releaseDate = "22 Jun 2001",
     imdbRating = anyRating(),
     runtime = anyString()
 )
 
 fun givenPersistedMovie(movies: InMemoryMovies, movie: Movie = anyMovie()) = movie.also { movies.save(it) }
 
-fun anyRating() = IMDBRating(rating = BigDecimal.ONE, votes = 10)
+fun anyRating() = IMDBRating(rating = "6.2", votes = "10096")
 
 fun anyShowtime() = Showtime(dayOfWeek = DayOfWeek.FRIDAY, startAt = LocalTime.now(), price = Price(BigDecimal.ONE))
 

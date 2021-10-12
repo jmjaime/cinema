@@ -3,6 +3,7 @@ package com.cinema.infrastructure.routes
 import com.cinema.anyMovie
 import com.cinema.domain.movie.Movie
 import com.cinema.infrastructure.persistence.memory.InMemoryMovies
+import com.cinema.modulesForTest
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.server.testing.*

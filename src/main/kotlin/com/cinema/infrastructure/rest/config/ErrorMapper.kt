@@ -1,4 +1,4 @@
-package com.cinema.infrastructure.rest
+package com.cinema.infrastructure.rest.config
 
 import com.cinema.domain.errors.MovieAlreadyRated
 import com.cinema.domain.errors.MovieNotFound

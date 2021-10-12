@@ -5,7 +5,6 @@ import com.cinema.domain.movie.Price
 import com.cinema.domain.movie.showtimes.MovieSchedule
 import com.cinema.domain.movie.showtimes.MovieSchedules
 import com.cinema.domain.movie.showtimes.Showtime
-import java.math.BigDecimal
 import java.time.DayOfWeek
 import java.time.LocalTime
 

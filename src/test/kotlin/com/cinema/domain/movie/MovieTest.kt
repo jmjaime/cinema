@@ -4,8 +4,6 @@ import com.cinema.anyString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.math.BigDecimal
-import java.time.LocalDate
 
 class MovieTest {
 
@@ -44,8 +42,8 @@ class MovieTest {
     ) = Movie(
         imdbId = imdbId,
         name = name,
-        releaseDate = LocalDate.now(),
-        imdbRating = IMDBRating(rating = BigDecimal.TEN, votes = 1),
+        releaseDate = "3 Jun 1999",
+        imdbRating = IMDBRating(rating = "4.5", votes = "109"),
         runtime = runtime
     )
 }

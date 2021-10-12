@@ -8,6 +8,7 @@ import com.cinema.domain.movie.showtimes.MovieSchedule
 import com.cinema.domain.movie.showtimes.Showtime
 import com.cinema.infrastructure.persistence.memory.InMemoryMovieSchedules
 import com.cinema.infrastructure.persistence.memory.InMemoryMovies
+import com.cinema.modulesForTest
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.server.testing.*

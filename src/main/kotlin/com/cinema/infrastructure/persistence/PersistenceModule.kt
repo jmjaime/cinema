@@ -1,31 +1,46 @@
 package com.cinema.infrastructure.persistence
 
-import com.cinema.domain.movie.IMDBRating
-import com.cinema.domain.movie.Movie
 import com.cinema.domain.movie.Movies
 import com.cinema.domain.movie.showtimes.MovieSchedules
 import com.cinema.domain.rating.CustomerVotes
 import com.cinema.infrastructure.persistence.memory.InMemoryCustomerVotes
 import com.cinema.infrastructure.persistence.memory.InMemoryMovieSchedules
-import com.cinema.infrastructure.persistence.memory.InMemoryMovies
+import com.cinema.infrastructure.persistence.remote.OMDbClient
+import com.cinema.infrastructure.persistence.remote.OMDbMovies
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
 import org.koin.dsl.module
-import java.math.BigDecimal
-import java.time.LocalDate
 
 val persistenceModule = module {
     single<CustomerVotes> { InMemoryCustomerVotes() }
     single<MovieSchedules> { InMemoryMovieSchedules() }
+}
+
+val remotePersistenceModule = module {
     single<Movies> {
-        InMemoryMovies(
-            movies = mutableMapOf(
-                "tt0232500" to Movie(
-                    imdbId = "tt0232500",
-                    name ="The Fast and the Furious",
-                    releaseDate = LocalDate.now(),
-                    imdbRating = IMDBRating(BigDecimal.valueOf(6.8),360459),
-                    runtime = "106 min"
-                )
-            )
+        OMDbMovies(
+            availableMovies = System.getenv("movies").split(","),
+            cacheTimeOutInSeconds = System.getenv("movie_cache_timeout").toLong(),
+            omdbClient = get()
         )
+    }
+    single {
+        OMDbClient(
+            httpClient = get(),
+            urlOMDb = System.getenv("omdb_url"),
+            apiKey = System.getenv("api_key")
+        )
+    }
+
+    single {
+        HttpClient(CIO) {
+            install(JsonFeature) {
+                serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
+                    ignoreUnknownKeys = true
+                })
+            }
+        }
     }
 }

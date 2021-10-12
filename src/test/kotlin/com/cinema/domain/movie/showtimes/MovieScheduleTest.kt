@@ -47,7 +47,7 @@ class MovieScheduleTest {
         val error = assertThrows<ShowTimeAlreadyExists> {
             schedule.addShowtime(showtime)
         }
-        Assertions.assertEquals("Already exists showtime for movie ${schedule.movieId} at ${showtime.startAt}", error.message)
+        Assertions.assertEquals("Already exists showtime for movie ${schedule.movieId} at ${showtime.dayOfWeek} ${showtime.startAt}", error.message)
 
     }
 }

@@ -1,11 +1,9 @@
 package com.cinema.domain.movie
 
-import java.time.LocalDate
-
 data class Movie(
     val imdbId: String,
     val name: String,
-    val releaseDate: LocalDate,
+    val releaseDate: String,
     val imdbRating: IMDBRating,
     val runtime: String
 ) {

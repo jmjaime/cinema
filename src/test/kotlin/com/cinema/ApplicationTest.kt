@@ -1,4 +1,4 @@
-package com.cinema.infrastructure.routes
+package com.cinema
 
 import com.cinema.domain.config.actionsModule
 import com.cinema.domain.config.moviesModule

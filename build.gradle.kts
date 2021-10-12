@@ -23,6 +23,11 @@ dependencies {
     implementation("io.insert-koin:koin-logger-slf4j:$koinVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("io.ktor:ktor-serialization:$ktorVersion")
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-serialization:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.0.4")
+
     runtimeOnly("ch.qos.logback:logback-classic:1.2.1")
 
 
@@ -33,6 +38,9 @@ dependencies {
     testImplementation("org.mockito:mockito-junit-jupiter:3.12.4")
     testImplementation("io.insert-koin:koin-test-junit5:$koinVersion")
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
+    testImplementation("io.ktor:ktor-client-mock:$ktorVersion")
+    testImplementation("org.mock-server:mockserver-junit-jupiter:5.11.1")
+
 
 }
 

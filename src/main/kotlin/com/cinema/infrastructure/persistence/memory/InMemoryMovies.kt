@@ -10,10 +10,6 @@ class InMemoryMovies(private val movies: MutableMap<String, Movie> = mutableMapO
     override fun findAll() = movies.values.toList()
     override fun findByIdIn(ids: List<String>) = ids.mapNotNull { movies[it] }
 
-    fun deleteAll() {
-        movies.clear()
-    }
-
     fun save(movie: Movie) {
         movies[movie.imdbId] = movie
     }
