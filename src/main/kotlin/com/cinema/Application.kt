@@ -4,7 +4,7 @@ import com.cinema.domain.config.actionsModule
 import com.cinema.domain.config.moviesModule
 import com.cinema.infrastructure.persistence.persistenceModule
 import com.cinema.infrastructure.rest.errorMapper
-import com.cinema.infrastructure.rest.restModule
+import com.cinema.infrastructure.rest.config.restModule
 import com.cinema.infrastructure.rest.routes.backofficeRoutes
 import com.cinema.infrastructure.rest.routes.cinemaRoutes
 import io.ktor.application.*

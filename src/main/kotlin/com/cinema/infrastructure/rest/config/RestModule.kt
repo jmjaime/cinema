@@ -1,9 +1,6 @@
-package com.cinema.infrastructure.rest
+package com.cinema.infrastructure.rest.config
 
-import com.cinema.infrastructure.rest.handlers.FetchBillboardHandler
-import com.cinema.infrastructure.rest.handlers.FetchMovieDetailsHandler
-import com.cinema.infrastructure.rest.handlers.FetchMovieTimesHandler
-import com.cinema.infrastructure.rest.handlers.FetchMoviesHandler
+import com.cinema.infrastructure.rest.handlers.*
 import org.koin.dsl.module
 
 val restModule = module {
@@ -11,4 +8,5 @@ val restModule = module {
     single { FetchMovieDetailsHandler(get()) }
     single { FetchBillboardHandler(get()) }
     single { FetchMovieTimesHandler(get()) }
+    single { RateMovieHandler(get()) }
 }

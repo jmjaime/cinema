@@ -25,5 +25,5 @@ class RateMovie(
         )
     }
 
-    data class Request(val customer: String, val movieId: String, val rating: Rating, val comment: String)
+    data class Request(val customer: String, val movieId: String, val rating: Rating, val comment: String?)
 }
