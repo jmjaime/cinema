@@ -1,10 +1,15 @@
 plugins {
     kotlin("jvm") version "1.5.31"
     kotlin("plugin.serialization") version "1.5.31"
+    application
 }
 
 group = "com.cinema"
 version = "1.0-SNAPSHOT"
+
+application {
+    mainClass.set("io.ktor.server.netty.EngineMain")
+}
 
 repositories {
     mavenCentral()
@@ -28,6 +33,7 @@ dependencies {
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
     implementation("com.github.ben-manes.caffeine:caffeine:3.0.4")
 
+    implementation("software.amazon.awssdk:dynamodb:2.17.57")
     runtimeOnly("ch.qos.logback:logback-classic:1.2.1")
 
 
@@ -40,6 +46,10 @@ dependencies {
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
     testImplementation("io.ktor:ktor-client-mock:$ktorVersion")
     testImplementation("org.mock-server:mockserver-junit-jupiter:5.11.1")
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.16.0"))
+    testImplementation("org.testcontainers:junit-jupiter:1.16.0")
+    testImplementation("ch.qos.logback:logback-classic:1.2.5")
+    testImplementation("ch.qos.logback:logback-core:1.2.5")
 
 
 }

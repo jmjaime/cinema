@@ -8,6 +8,7 @@ import com.cinema.infrastructure.rest.config.errorMapper
 import com.cinema.infrastructure.rest.config.restModule
 import com.cinema.infrastructure.rest.routes.backofficeRoutes
 import com.cinema.infrastructure.rest.routes.cinemaRoutes
+import com.cinema.infrastructure.system.systemModule
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.serialization.*
@@ -17,6 +18,7 @@ import kotlinx.serialization.json.Json
 import org.koin.fileProperties
 import org.koin.ktor.ext.Koin
 import org.koin.logger.SLF4JLogger
+import org.slf4j.event.Level
 
 fun Application.main() {
     koinModules()
@@ -25,10 +27,12 @@ fun Application.main() {
 
 
 fun Application.koinModules() {
-    install(CallLogging)
+    install(CallLogging){
+        level = Level.TRACE
+    }
     install(Koin) {
         SLF4JLogger()
-        modules(moviesModule, actionsModule, restModule, persistenceModule, remotePersistenceModule)
+        modules(systemModule, moviesModule, actionsModule, restModule, persistenceModule, remotePersistenceModule)
     }
 }
 

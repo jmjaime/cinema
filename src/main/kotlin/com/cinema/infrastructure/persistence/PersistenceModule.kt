@@ -3,7 +3,7 @@ package com.cinema.infrastructure.persistence
 import com.cinema.domain.movie.Movies
 import com.cinema.domain.movie.showtimes.MovieSchedules
 import com.cinema.domain.rating.CustomerVotes
-import com.cinema.infrastructure.persistence.memory.InMemoryCustomerVotes
+import com.cinema.infrastructure.persistence.dynamo.DynamoCustomerVotes
 import com.cinema.infrastructure.persistence.memory.InMemoryMovieSchedules
 import com.cinema.infrastructure.persistence.remote.OMDbClient
 import com.cinema.infrastructure.persistence.remote.OMDbMovies
@@ -12,25 +12,43 @@ import io.ktor.client.engine.cio.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import org.koin.dsl.module
+import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient
+import java.net.URI
 
 val persistenceModule = module {
-    single<CustomerVotes> { InMemoryCustomerVotes() }
     single<MovieSchedules> { InMemoryMovieSchedules() }
+
+    single<CustomerVotes> {
+        DynamoCustomerVotes(
+            dynamoDbClient = get(),
+            tableName = getSetting("dynamo_table")
+        )
+    }
+
+    single {
+        val builder = DynamoDbClient
+            .builder()
+            .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
+        getOptionalSetting("dynamodb_url")?.let { builder.endpointOverride(URI.create(it)) }
+        builder.build()
+    }
+
 }
 
 val remotePersistenceModule = module {
     single<Movies> {
         OMDbMovies(
-            availableMovies = System.getenv("movies").split(","),
-            cacheTimeOutInSeconds = System.getenv("movie_cache_timeout").toLong(),
+            availableMovies = getSetting("movies").split(","),
+            cacheTimeOutInSeconds = getSetting("movie_cache_timeout").toLong(),
             omdbClient = get()
         )
     }
     single {
         OMDbClient(
             httpClient = get(),
-            urlOMDb = System.getenv("omdb_url"),
-            apiKey = System.getenv("api_key")
+            urlOMDb = getSetting("omdb_url"),
+            apiKey = getSetting("api_key")
         )
     }
 
@@ -44,3 +62,9 @@ val remotePersistenceModule = module {
         }
     }
 }
+
+fun getOptionalSetting(key: String): String? = System.getProperty(key)?.takeIf { it.isNotBlank() }
+    ?: System.getenv(key)?.takeIf { it.isNotBlank() }
+
+fun getSetting(key: String): String = getOptionalSetting(key)
+    ?: throw IllegalArgumentException("setting $key is required")
