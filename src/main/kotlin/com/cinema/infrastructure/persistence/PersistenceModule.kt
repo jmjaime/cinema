@@ -4,20 +4,27 @@ import com.cinema.domain.movie.Movies
 import com.cinema.domain.movie.showtimes.DailyShowtimes
 import com.cinema.domain.rating.CustomerVotes
 import com.cinema.infrastructure.persistence.dynamo.DynamoCustomerVotes
-import com.cinema.infrastructure.persistence.memory.InMemoryDailyShowtimes
+import com.cinema.infrastructure.persistence.dynamo.DynamoDailyShowtimes
 import com.cinema.infrastructure.persistence.remote.OMDbClient
 import com.cinema.infrastructure.persistence.remote.OMDbMovies
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
+import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 import java.net.URI
 
 val persistenceModule = module {
-    single<DailyShowtimes> { InMemoryDailyShowtimes() }
+    single<DailyShowtimes> {
+        DynamoDailyShowtimes(
+            dynamoDbClient = get(),
+            tableName = getSetting("dynamo_table"),
+            mapper = Json { }
+        )
+    }
 
     single<CustomerVotes> {
         DynamoCustomerVotes(

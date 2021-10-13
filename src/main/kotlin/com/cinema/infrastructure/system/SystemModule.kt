@@ -4,5 +4,5 @@ import org.koin.dsl.module
 import java.time.Clock
 
 val systemModule = module {
-    single { Clock.systemUTC() }
+    single<Clock> { Clock.systemUTC() }
 }

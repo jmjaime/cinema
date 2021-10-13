@@ -19,6 +19,4 @@ class InMemoryDailyShowtimes(
     override fun save(dailyShowtime: DailyShowtime) {
         dailyShowtimes.getOrPut(dailyShowtime.movieId) { mutableMapOf() }[dailyShowtime.day] = dailyShowtime
     }
-
-    override fun findAll() = dailyShowtimes.values.flatMap { it.values }
 }

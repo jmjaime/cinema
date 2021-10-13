@@ -29,7 +29,8 @@ fun anyRating() = IMDBRating(rating = "6.2", votes = "10096")
 
 fun anyShowtime() = Showtime(startAt = LocalTime.now(), price = Price(BigDecimal.ONE))
 
-fun anyDailyShowtime(movieId: String) = DailyShowtime(movieId = movieId, day = DayOfWeek.MONDAY, showtimes = listOf(anyShowtime()))
+fun anyDailyShowtime(movieId: String, day: DayOfWeek = DayOfWeek.MONDAY) =
+    DailyShowtime(movieId = movieId, day = day, showtimes = listOf(anyShowtime()))
 
 fun anyCustomerVote(customer: String = anyString(), movieId: String = anyString()) = CustomerVote(
     customer = customer,
