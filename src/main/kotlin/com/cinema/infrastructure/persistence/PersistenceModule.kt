@@ -1,10 +1,10 @@
 package com.cinema.infrastructure.persistence
 
 import com.cinema.domain.movie.Movies
-import com.cinema.domain.movie.showtimes.MovieSchedules
+import com.cinema.domain.movie.showtimes.DailyShowtimes
 import com.cinema.domain.rating.CustomerVotes
 import com.cinema.infrastructure.persistence.dynamo.DynamoCustomerVotes
-import com.cinema.infrastructure.persistence.memory.InMemoryMovieSchedules
+import com.cinema.infrastructure.persistence.memory.InMemoryDailyShowtimes
 import com.cinema.infrastructure.persistence.remote.OMDbClient
 import com.cinema.infrastructure.persistence.remote.OMDbMovies
 import io.ktor.client.*
@@ -17,7 +17,7 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 import java.net.URI
 
 val persistenceModule = module {
-    single<MovieSchedules> { InMemoryMovieSchedules() }
+    single<DailyShowtimes> { InMemoryDailyShowtimes() }
 
     single<CustomerVotes> {
         DynamoCustomerVotes(

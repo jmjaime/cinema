@@ -3,15 +3,14 @@ package com.cinema.domain.action
 import com.cinema.anyString
 import com.cinema.domain.actions.FetchMovieTimes
 import com.cinema.domain.errors.MovieNotFound
-import com.cinema.infrastructure.persistence.memory.InMemoryMovies
-import com.cinema.domain.movie.Movie
 import com.cinema.domain.movie.MovieLocator
 import com.cinema.domain.movie.Price
-import com.cinema.infrastructure.persistence.memory.InMemoryMovieSchedules
+import com.cinema.domain.movie.showtimes.DailyShowtime
 import com.cinema.domain.movie.showtimes.MovieProjection
-import com.cinema.domain.movie.showtimes.MovieSchedule
 import com.cinema.domain.movie.showtimes.Showtime
 import com.cinema.givenPersistedMovie
+import com.cinema.infrastructure.persistence.memory.InMemoryDailyShowtimes
+import com.cinema.infrastructure.persistence.memory.InMemoryMovies
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -27,30 +26,40 @@ class FetchMovieTimesTest {
     }
 
     private lateinit var movies: InMemoryMovies
-    private lateinit var movieSchedules: InMemoryMovieSchedules
+    private lateinit var dailyShowtimes: InMemoryDailyShowtimes
     private lateinit var fetchMovieTimes: FetchMovieTimes
     private lateinit var clock: Clock
 
     @BeforeEach
     fun setUp() {
         movies = InMemoryMovies()
-        movieSchedules = InMemoryMovieSchedules()
+        dailyShowtimes = InMemoryDailyShowtimes()
         clock = Clock.fixed(now, ZoneId.systemDefault())
-        fetchMovieTimes = FetchMovieTimes(MovieLocator(movies), movieSchedules, clock)
+        fetchMovieTimes = FetchMovieTimes(MovieLocator(movies), dailyShowtimes, clock)
     }
 
     @Test
     fun `can fetch movie times`() {
-        val mondayShowtime =
-            Showtime(dayOfWeek = DayOfWeek.MONDAY, startAt = LocalTime.now(), price = Price(BigDecimal.ONE))
-        val fridayShowtime =
-            Showtime(dayOfWeek = DayOfWeek.FRIDAY, startAt = LocalTime.now(), price = Price(BigDecimal.TEN))
         val movie = givenPersistedMovie(movies)
-        val movieSchedule = givenSchedule(movie, listOf(mondayShowtime, fridayShowtime))
+        val timeTable = listOf(
+            DailyShowtime(
+                movieId = movie.imdbId,
+                day = DayOfWeek.MONDAY,
+                showtimes = listOf(Showtime(startAt = LocalTime.now(), price = Price(BigDecimal.ONE)))
+            ),
+            DailyShowtime(
+                movieId = movie.imdbId,
+                day = DayOfWeek.FRIDAY,
+                showtimes = listOf(Showtime(startAt = LocalTime.now(), price = Price(BigDecimal.TEN)))
+            )
+        ).onEach {
+            dailyShowtimes.save(it)
+        }
+
 
         val result = fetchMovieTimes(FetchMovieTimes.Request(movieId = movie.imdbId))
 
-        val expectedMovieProjections = expectedMovieProjections(movieSchedule)
+        val expectedMovieProjections = expectedMovieProjections(timeTable)
         Assertions.assertEquals(expectedMovieProjections, result)
     }
 
@@ -72,20 +81,14 @@ class FetchMovieTimesTest {
         Assertions.assertTrue(result.isEmpty())
     }
 
-    private fun givenSchedule(movie: Movie, showtimes: List<Showtime>) =
-        MovieSchedule(
-            movieId = movie.imdbId,
-            showtimes = showtimes.toMutableList()
-        ).apply {
-            movieSchedules.save(this)
-        }
-
-    private fun expectedMovieProjections(movieSchedule: MovieSchedule) =
-        movieSchedule.showtimes().map {
-            MovieProjection(
-                startAt = LocalDate.now(clock).atTime(it.startAt).with(TemporalAdjusters.nextOrSame(it.dayOfWeek)),
-                price = it.price
-            )
+    private fun expectedMovieProjections(dailyShowtimes: List<DailyShowtime>) =
+        dailyShowtimes.flatMap { dsht ->
+            dsht.showtimes.map { sht ->
+                MovieProjection(
+                    startAt = LocalDate.now(clock).atTime(sht.startAt).with(TemporalAdjusters.nextOrSame(dsht.day)),
+                    price = sht.price
+                )
+            }
         }.sortedBy { it.startAt }
 }
 

@@ -1,11 +1,8 @@
 package com.cinema.infrastructure.routes
 
 import com.cinema.anyMovie
-import com.cinema.anyShowtime
 import com.cinema.anyString
-import com.cinema.domain.movie.Movie
-import com.cinema.domain.movie.showtimes.MovieSchedule
-import com.cinema.domain.movie.showtimes.MovieSchedules
+import com.cinema.domain.movie.Price
 import com.cinema.domain.movie.showtimes.Showtime
 import com.cinema.infrastructure.persistence.memory.InMemoryMovies
 import com.cinema.infrastructure.rest.handlers.SaveMovieShowtimeHandler
@@ -20,7 +17,6 @@ import org.junit.jupiter.api.Test
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import java.math.BigDecimal
-import java.time.DayOfWeek
 import java.time.LocalTime
 
 class SaveMovieShowtimeRoute : KoinTest {
@@ -29,13 +25,18 @@ class SaveMovieShowtimeRoute : KoinTest {
     fun `can save movie showtime`() {
         withTestApplication(Application::modulesForTest) {
             val movie = givenMovie()
+            val request = anySaveShowtimeRequest()
             with(
-                handleRequest(HttpMethod.Post, "/movies/${movie.imdbId}/showtime") {
+                handleRequest(HttpMethod.Post, "/movies/${movie.imdbId}/showtime/monday") {
                     addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(Json.encodeToString(anySaveShowtimeRequest()))
+                    setBody(Json.encodeToString(request))
                 }
             ) {
-                Assertions.assertEquals(HttpStatusCode.Created, response.status())
+                val expectedShowtimes =
+                    request.showTimeRequests.map { Showtime(startAt = it.time, price = Price(it.price)) }
+                Assertions.assertEquals(HttpStatusCode.OK, response.status())
+                Assertions.assertEquals(bodyFrom(expectedShowtimes), response.content)
+
             }
         }
     }
@@ -44,7 +45,7 @@ class SaveMovieShowtimeRoute : KoinTest {
     fun `returns not found if movie does not exist`() {
         withTestApplication(Application::modulesForTest) {
             with(
-                handleRequest(HttpMethod.Post, "/movies/${anyString()}/showtime") {
+                handleRequest(HttpMethod.Post, "/movies/${anyString()}/showtime/monday") {
                     addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     setBody(Json.encodeToString(anySaveShowtimeRequest()))
                 }
@@ -54,36 +55,20 @@ class SaveMovieShowtimeRoute : KoinTest {
         }
     }
 
-    @Test
-    fun `cannot save movie showtime two times`() {
-        withTestApplication(Application::modulesForTest) {
-            val movie = givenMovie()
-            val showtime = givenMovieShowTime(movie)
-            with(
-                handleRequest(HttpMethod.Post, "/movies/${movie.imdbId}/showtime") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(Json.encodeToString(anySaveShowtimeRequest(dayOfWeek = showtime.dayOfWeek, time = showtime.startAt)))
-                }
-            ) {
-                Assertions.assertEquals(HttpStatusCode.Conflict, response.status())
-            }
-        }
-    }
-
     private fun givenMovie() = anyMovie().apply {
         val movies: InMemoryMovies by inject()
         movies.save(this)
     }
 
-    private fun anySaveShowtimeRequest(dayOfWeek: DayOfWeek = DayOfWeek.MONDAY, time: LocalTime = LocalTime.now()) =
-        SaveMovieShowtimeHandler.Request(dayOfWeek, time, BigDecimal.TEN)
+    private fun anySaveShowtimeRequest(time: LocalTime = LocalTime.now()) =
+        SaveMovieShowtimeHandler.Request(
+            listOf(SaveMovieShowtimeHandler.ShowTimeRequest(time, BigDecimal.TEN))
+        )
 
-    private fun givenMovieShowTime(movie: Movie): Showtime {
-        val schedules: MovieSchedules by inject()
-        val showtime = anyShowtime()
-        val schedule = MovieSchedule.scheduleFor(movie).apply { this.addShowtime(showtime) }
-        schedules.save(schedule)
-        return showtime
+    private fun bodyFrom(showtime: List<Showtime>): String {
+        val result = showtime
+            ?.joinToString(",") { """{"startAt":"${it.startAt}","price":"${it.price.amount}"}""" } ?: ""
+        return """[$result]"""
     }
 
 }

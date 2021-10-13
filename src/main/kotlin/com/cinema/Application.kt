@@ -15,7 +15,6 @@ import io.ktor.serialization.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import kotlinx.serialization.json.Json
-import org.koin.fileProperties
 import org.koin.ktor.ext.Koin
 import org.koin.logger.SLF4JLogger
 import org.slf4j.event.Level
@@ -27,7 +26,7 @@ fun Application.main() {
 
 
 fun Application.koinModules() {
-    install(CallLogging){
+    install(CallLogging) {
         level = Level.TRACE
     }
     install(Koin) {

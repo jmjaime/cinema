@@ -3,7 +3,6 @@ package com.cinema.infrastructure.rest.routes
 import com.cinema.infrastructure.rest.handlers.FetchMoviesHandler
 import com.cinema.infrastructure.rest.handlers.SaveMovieShowtimeHandler
 import io.ktor.application.*
-import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -18,11 +17,11 @@ fun Application.backofficeRoutes() {
         get("/movies") {
             call.respond(fetchMoviesHandler())
         }
-        post("movies/{id}/showtime") {
+        post("movies/{id}/showtime/{day}") {
             val movieId = call.parameters["id"]!!
+            val day = call.parameters["day"]!!
             val body = call.receive<SaveMovieShowtimeHandler.Request>()
-            saveMovieShowtimeHandler(movieId, body)
-            call.respond(HttpStatusCode.Created)
+            call.respond(saveMovieShowtimeHandler(movieId, day, body))
         }
     }
 }

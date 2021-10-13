@@ -1,9 +1,9 @@
 package com.cinema.infrastructure.routes
 
 import com.cinema.anyMovie
-import com.cinema.anyMovieSchedule
+import com.cinema.anyDailyShowtime
 import com.cinema.domain.movie.Movie
-import com.cinema.infrastructure.persistence.memory.InMemoryMovieSchedules
+import com.cinema.infrastructure.persistence.memory.InMemoryDailyShowtimes
 import com.cinema.infrastructure.persistence.memory.InMemoryMovies
 import com.cinema.modulesForTest
 import io.ktor.application.*
@@ -40,10 +40,10 @@ class BillboardRouteTest : KoinTest {
 
     private fun givenMoviesInBillboard(): List<Movie> {
         val movies: InMemoryMovies by inject()
-        val movieSchedules: InMemoryMovieSchedules by inject()
+        val dailyShowtimes: InMemoryDailyShowtimes by inject()
         return listOf(anyMovie(), anyMovie()).onEach {
             movies.save(it)
-            movieSchedules.save(anyMovieSchedule(movieId = it.imdbId))
+            dailyShowtimes.save(anyDailyShowtime(movieId = it.imdbId))
         }
     }
 

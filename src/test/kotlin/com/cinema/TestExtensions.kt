@@ -3,7 +3,7 @@ package com.cinema
 import com.cinema.domain.movie.IMDBRating
 import com.cinema.domain.movie.Movie
 import com.cinema.domain.movie.Price
-import com.cinema.domain.movie.showtimes.MovieSchedule
+import com.cinema.domain.movie.showtimes.DailyShowtime
 import com.cinema.domain.movie.showtimes.Showtime
 import com.cinema.domain.rating.CustomerVote
 import com.cinema.domain.rating.Rating
@@ -27,9 +27,9 @@ fun givenPersistedMovie(movies: InMemoryMovies, movie: Movie = anyMovie()) = mov
 
 fun anyRating() = IMDBRating(rating = "6.2", votes = "10096")
 
-fun anyShowtime() = Showtime(dayOfWeek = DayOfWeek.FRIDAY, startAt = LocalTime.now(), price = Price(BigDecimal.ONE))
+fun anyShowtime() = Showtime(startAt = LocalTime.now(), price = Price(BigDecimal.ONE))
 
-fun anyMovieSchedule(movieId: String) = MovieSchedule(movieId = movieId, showtimes = mutableListOf(anyShowtime()))
+fun anyDailyShowtime(movieId: String) = DailyShowtime(movieId = movieId, day = DayOfWeek.MONDAY, showtimes = listOf(anyShowtime()))
 
 fun anyCustomerVote(customer: String = anyString(), movieId: String = anyString()) = CustomerVote(
     customer = customer,
