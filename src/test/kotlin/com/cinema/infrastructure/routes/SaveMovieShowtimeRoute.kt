@@ -27,13 +27,13 @@ class SaveMovieShowtimeRoute : KoinTest {
             val movie = givenMovie()
             val request = anySaveShowtimeRequest()
             with(
-                handleRequest(HttpMethod.Post, "/movies/${movie.imdbId}/showtime/monday") {
+                handleRequest(HttpMethod.Put, "/movies/${movie.imdbId}/showtime/monday") {
                     addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     setBody(Json.encodeToString(request))
                 }
             ) {
                 val expectedShowtimes =
-                    request.showTimeRequests.map { Showtime(startAt = it.time, price = Price(it.price)) }
+                    request.showTimeRequests.map { Showtime(startAt = it.startAt, price = Price(it.price)) }
                 Assertions.assertEquals(HttpStatusCode.OK, response.status())
                 Assertions.assertEquals(bodyFrom(expectedShowtimes), response.content)
 

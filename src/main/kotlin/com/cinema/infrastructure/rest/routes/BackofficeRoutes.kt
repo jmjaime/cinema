@@ -17,7 +17,7 @@ fun Application.backofficeRoutes() {
         get("/movies") {
             call.respond(fetchMoviesHandler())
         }
-        post("movies/{id}/showtime/{day}") {
+        put("movies/{id}/showtime/{day}") {
             val movieId = call.parameters["id"]!!
             val day = call.parameters["day"]!!
             val body = call.receive<SaveMovieShowtimeHandler.Request>()

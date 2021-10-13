@@ -18,7 +18,7 @@ class SaveMovieShowtimeHandler(private val saveMovieShowtime: SaveMovieShowtime)
             SaveMovieShowtime.Request(
                 movieId = movieId,
                 dayOfWeek = DayOfWeek.valueOf(dayOfWeek.uppercase()),
-                showTimes = request.showTimeRequests.map { it.time to Price(it.price) }
+                showTimes = request.showTimeRequests.map { it.startAt to Price(it.price) }
             )
         ).showtimes.map { it.toModel() }
     }
@@ -31,7 +31,7 @@ class SaveMovieShowtimeHandler(private val saveMovieShowtime: SaveMovieShowtime)
     @Serializable
     data class ShowTimeRequest(
         @Serializable(with = LocalTimeSerializer::class)
-        val time: LocalTime,
+        val startAt: LocalTime,
         @Serializable(with = BigDecimalSerializer::class)
         val price: BigDecimal
     )
