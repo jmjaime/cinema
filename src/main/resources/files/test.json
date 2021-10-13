@@ -1,0 +1,283 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "0.1",
+    "title": "Cinema API"
+  },
+  "paths": {
+    "/movies/{id}/rate": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Movie id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/RateRequest"
+            },
+            "x-examples": {
+              "application/json": "{\n    \"user\":\"john\",\n    \"rate\":2,\n    \"comment\": \"great\"\n}"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Rate created",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/movies/{id}/times": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Movie id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/MovieProjections"
+            }
+          }
+        }
+      }
+    },
+    "/movies/{id}": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Movie id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/MovieDetails"
+            }
+          }
+        }
+      }
+    },
+    "/movies/{id}/showtime/{dayOfWeek}": {
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Movie id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "dayOfWeek",
+            "in": "path",
+            "description": "day of week",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/DailyShowtimesRequest"
+            },
+            "x-examples": {
+              "application/json": "{\n    \"showTimeRequests\": [\n    { \n        \"startAt\":\"10:00:00\",\n      \"price\": \"56\"\n        \n    },\n    { \n        \"startAt\":\"16:00:00\",\n      \"price\": \"56\"\n        \n    }\n    ]\n}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/DailyShowtime"
+            }
+          }
+        }
+      }
+    },
+    "/movies": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/Movies"
+            }
+          }
+        }
+      }
+    },
+    "/billboard": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Definition generated from Swagger Inspector",
+            "schema": {
+              "$ref": "#/definitions/Billboard"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "RateRequest": {
+      "properties": {
+        "user": {
+          "type": "string"
+        },
+        "rate": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "comment": {
+          "type": "string"
+        }
+      }
+    },
+    "ShowTimeRequest": {
+      "properties": {
+        "startAt": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        }
+      }
+    },
+    "DailyShowtimesRequest": {
+      "properties": {
+        "showTimeRequests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShowTimeRequest"
+          }
+        }
+      }
+    },
+    "Projection": {
+      "properties": {
+        "startAt": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        }
+      }
+    },
+    "MovieProjections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Projection"
+      }
+    },
+    "MovieDetails": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Movie": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "AvailableMovies": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Billboard": {
+      "properties": {
+        "availableMovies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AvailableMovies"
+          }
+        }
+      }
+    },
+    "Showtime": {
+      "properties": {
+        "startAt": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        }
+      }
+    },
+    "DailyShowtime": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Showtime"
+      }
+    },
+    "Movies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Movie"
+      }
+    }
+  }
+}

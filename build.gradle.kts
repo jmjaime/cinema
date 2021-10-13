@@ -13,6 +13,7 @@ application {
 
 repositories {
     mavenCentral()
+    maven( "https://jitpack.io")
 }
 
 val koinVersion = "3.1.2"
@@ -35,6 +36,9 @@ dependencies {
 
     implementation("software.amazon.awssdk:dynamodb:2.17.57")
     runtimeOnly("ch.qos.logback:logback-classic:1.2.1")
+
+    implementation("com.github.papsign:Ktor-OpenAPI-Generator:-SNAPSHOT")
+
 
 
     testImplementation(platform("org.junit:junit-bom:5.8.1"))

@@ -9,6 +9,7 @@ import com.cinema.infrastructure.rest.config.restModule
 import com.cinema.infrastructure.rest.routes.backofficeRoutes
 import com.cinema.infrastructure.rest.routes.cinemaRoutes
 import com.cinema.infrastructure.system.systemModule
+import com.papsign.ktor.openapigen.OpenAPIGen
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.serialization.*
@@ -47,7 +48,14 @@ fun Application.routes() {
     cinemaRoutes()
     backofficeRoutes()
     errorMapper()
+
+    install(OpenAPIGen) {
+        serveSwaggerUi = true
+        swaggerUiPath = "/swagger-ui"
+    }
 }
+
+
 
 fun main(args: Array<String>) {
     embeddedServer(Netty, commandLineEnvironment(args)).start()

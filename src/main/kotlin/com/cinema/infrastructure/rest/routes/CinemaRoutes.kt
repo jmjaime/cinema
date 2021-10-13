@@ -6,6 +6,7 @@ import com.cinema.infrastructure.rest.handlers.FetchMovieTimesHandler
 import com.cinema.infrastructure.rest.handlers.RateMovieHandler
 import io.ktor.application.*
 import io.ktor.http.*
+import io.ktor.http.content.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -36,6 +37,14 @@ fun Application.cinemaRoutes() {
             val body = call.receive<RateMovieHandler.Request>()
             rateMovieHandler(movieId, body)
             call.respond(HttpStatusCode.Created)
+        }
+
+        static("/static") {
+            resources("files")
+        }
+
+        get("/") {
+            call.respondRedirect("/swagger-ui/index.html?url=/static/test.json", true)
         }
     }
 }

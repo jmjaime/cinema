@@ -45,7 +45,7 @@ class SaveMovieShowtimeRoute : KoinTest {
     fun `returns not found if movie does not exist`() {
         withTestApplication(Application::modulesForTest) {
             with(
-                handleRequest(HttpMethod.Post, "/movies/${anyString()}/showtime/monday") {
+                handleRequest(HttpMethod.Put, "/movies/${anyString()}/showtime/monday") {
                     addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     setBody(Json.encodeToString(anySaveShowtimeRequest()))
                 }
