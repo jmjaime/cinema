@@ -66,8 +66,7 @@ class SaveMovieShowtimeRoute : KoinTest {
         )
 
     private fun bodyFrom(showtime: List<Showtime>): String {
-        val result = showtime
-            ?.joinToString(",") { """{"startAt":"${it.startAt}","price":"${it.price.amount}"}""" } ?: ""
+        val result = showtime.joinToString(",") { """{"startAt":"${it.startAt}","price":"${it.price.amount}"}""" } ?: ""
         return """[$result]"""
     }
 
