@@ -11,4 +11,5 @@ val actionsModule = module {
     single { FetchMovieTimes(get(), get(), get()) }
     single { RateMovie(get(), get()) }
     single { SaveMovieShowtime(get(), get()) }
+    single { FetchMovieShowtime(get(), get())}
 }

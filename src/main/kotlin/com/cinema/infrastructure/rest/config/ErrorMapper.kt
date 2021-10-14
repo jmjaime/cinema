@@ -2,6 +2,7 @@ package com.cinema.infrastructure.rest.config
 
 import com.cinema.domain.errors.MovieAlreadyRated
 import com.cinema.domain.errors.MovieNotFound
+import com.cinema.infrastructure.rest.errors.InvalidDayOfWeek
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
@@ -18,6 +19,9 @@ fun Application.errorMapper() {
         }
         exception<SerializationException> {
             call.respond(HttpStatusCode.BadRequest)
+        }
+        exception<InvalidDayOfWeek> {
+            call.respond(HttpStatusCode.NotFound)
         }
     }
 }

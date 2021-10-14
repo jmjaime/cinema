@@ -61,14 +61,14 @@ class SaveMovieShowTimeTest {
 
         assertShowtimeCreated(dayOfWeek, result, request)
         val expectedDailyShowtime = DailyShowtime(movieId = movie.imdbId, day = dayOfWeek, showtimes = listOf(showtime))
-        assertMovieDailyShowtime(movie, expectedDailyShowtime)
+        assertMovieDailyShowtimes(movie, listOf(expectedDailyShowtime))
     }
 
     @Test
     fun `can add daily showtime for a movie`() {
         val dayOfWeek = DayOfWeek.THURSDAY
         val movie = givenPersistedMovie(movies)
-        val showtime = givenDailyShowTime(movie)
+        val dailyShowtime = givenDailyShowTime(movie)
         val newShowtime = anyShowtime()
         val request =
             SaveMovieShowtime.Request(movie.imdbId, dayOfWeek, listOf(newShowtime.startAt to newShowtime.price))
@@ -76,9 +76,11 @@ class SaveMovieShowTimeTest {
         val result = saveMovieShowTime(request)
 
         assertShowtimeCreated(dayOfWeek, result, request)
-        val expectedDailyShowtime =
+        val expectedDailyShowtimes = listOf(
+            dailyShowtime,
             DailyShowtime(movieId = movie.imdbId, day = dayOfWeek, showtimes = listOf(newShowtime))
-        assertMovieDailyShowtime(movie, expectedDailyShowtime)
+        )
+        assertMovieDailyShowtimes(movie, expectedDailyShowtimes)
     }
 
 
@@ -86,13 +88,15 @@ class SaveMovieShowTimeTest {
         inMemoryDailyShowtimes.save(this)
     }
 
-    private fun assertMovieDailyShowtime(
+    private fun assertMovieDailyShowtimes(
         movie: Movie,
-        expectedDailyShowtime: DailyShowtime
+        expectedDailyShowtimes: List<DailyShowtime>
     ) {
-        val dailyShowtime = inMemoryDailyShowtimes.findByMovieIdAndDay(movie.imdbId, expectedDailyShowtime.day)
-        Assertions.assertNotNull(dailyShowtime)
-        Assertions.assertEquals(expectedDailyShowtime, dailyShowtime)
+        expectedDailyShowtimes.onEach { expectedDailyShowtime ->
+            val dailyShowtime = inMemoryDailyShowtimes.findByMovieIdAndDay(movie.imdbId, expectedDailyShowtime.day)
+            Assertions.assertNotNull(dailyShowtime)
+            Assertions.assertEquals(expectedDailyShowtime, dailyShowtime)
+        }
     }
 
     private fun assertShowtimeCreated(

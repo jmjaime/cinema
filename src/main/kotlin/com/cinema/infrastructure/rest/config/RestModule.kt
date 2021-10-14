@@ -10,4 +10,5 @@ val restModule = module {
     single { FetchMovieTimesHandler(get()) }
     single { RateMovieHandler(get()) }
     single { SaveMovieShowtimeHandler(get()) }
+    single { FetchMovieShowtimeHandler(get()) }
 }

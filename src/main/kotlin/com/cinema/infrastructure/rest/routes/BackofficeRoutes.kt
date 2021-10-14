@@ -1,5 +1,6 @@
 package com.cinema.infrastructure.rest.routes
 
+import com.cinema.infrastructure.rest.handlers.FetchMovieShowtimeHandler
 import com.cinema.infrastructure.rest.handlers.FetchMoviesHandler
 import com.cinema.infrastructure.rest.handlers.SaveMovieShowtimeHandler
 import io.ktor.application.*
@@ -12,6 +13,7 @@ fun Application.backofficeRoutes() {
 
     val fetchMoviesHandler: FetchMoviesHandler by inject()
     val saveMovieShowtimeHandler: SaveMovieShowtimeHandler by inject()
+    val fetchMovieShowtimeHandler: FetchMovieShowtimeHandler by inject()
 
     routing {
         get("/movies") {
@@ -22,6 +24,11 @@ fun Application.backofficeRoutes() {
             val day = call.parameters["day"]!!
             val body = call.receive<SaveMovieShowtimeHandler.Request>()
             call.respond(saveMovieShowtimeHandler(movieId, day, body))
+        }
+        get("movies/{id}/showtime/{day}") {
+            val movieId = call.parameters["id"]!!
+            val day = call.parameters["day"]!!
+            call.respond(fetchMovieShowtimeHandler(movieId, day))
         }
     }
 }
