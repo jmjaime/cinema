@@ -1,4 +1,4 @@
-#Cinema challenge
+# Cinema challenge
 
 ## Stack
 * Kotlin.
@@ -6,7 +6,7 @@
 * Koin.
 * DynamoDB.
 
-##Run app:
+## Run app:
 ```
 ./gradlew clean build
 ./gradlew installDist
@@ -14,7 +14,7 @@ docker-compose build
 API_KEY=[your_IMDb_api_key] docker-compose up
 ```
 
-##Create a daily showtime
+## Create a daily showtime
 To show a movie in the cinema's billboard, you should create a daily showtime
 ```
 curl -X PUT \
@@ -38,7 +38,7 @@ curl -X PUT \
 }'
 ```
 
-##Swagger UI
+## Swagger UI
 ```
 http://localhost:8080/
 ```
