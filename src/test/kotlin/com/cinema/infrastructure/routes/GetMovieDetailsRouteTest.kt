@@ -40,7 +40,8 @@ class GetMovieDetailsRouteTest : KoinTest {
         movies.save(this)
     }
 
-    private fun bodyFrom(movie: Movie) = """{"id":"${movie.imdbId}","name":"${movie.name}"}"""
+    private fun bodyFrom(movie: Movie) =
+        """{"id":"${movie.imdbId}","name":"${movie.name}","description":"${movie.description}","releaseDate":"${movie.releaseDate}","runtime":"${movie.runtime}","imdbRating":"${movie.imdbRating.rating}"}"""
 
 
 }

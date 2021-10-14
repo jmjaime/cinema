@@ -39,12 +39,5 @@ fun Application.cinemaRoutes() {
             call.respond(HttpStatusCode.Created)
         }
 
-        static("/static") {
-            resources("files")
-        }
-
-        get("/") {
-            call.respondRedirect("/swagger-ui/index.html?url=/static/test.json", true)
-        }
     }
 }

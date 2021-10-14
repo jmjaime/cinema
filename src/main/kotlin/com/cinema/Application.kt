@@ -8,6 +8,7 @@ import com.cinema.infrastructure.rest.config.errorMapper
 import com.cinema.infrastructure.rest.config.restModule
 import com.cinema.infrastructure.rest.routes.backofficeRoutes
 import com.cinema.infrastructure.rest.routes.cinemaRoutes
+import com.cinema.infrastructure.rest.routes.swaggerRoutes
 import com.cinema.infrastructure.system.systemModule
 import com.papsign.ktor.openapigen.OpenAPIGen
 import io.ktor.application.*
@@ -47,6 +48,7 @@ fun Application.routes() {
     }
     cinemaRoutes()
     backofficeRoutes()
+    swaggerRoutes()
     errorMapper()
 
     install(OpenAPIGen) {
