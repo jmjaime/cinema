@@ -20,7 +20,10 @@ fun anyMovie(id: String = anyString()) = Movie(
     name = anyString(),
     releaseDate = "22 Jun 2001",
     imdbRating = anyRating(),
-    runtime = anyString()
+    runtime = anyString(),
+    description = anyString(),
+    actors = anyString(),
+    poster = anyString()
 )
 
 fun givenPersistedMovie(movies: InMemoryMovies, movie: Movie = anyMovie()) = movie.also { movies.save(it) }

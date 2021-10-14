@@ -48,7 +48,8 @@ class BillboardRouteTest : KoinTest {
     }
 
     private fun bodyFrom(availableMovies: List<Movie>): String {
-        val result = availableMovies.joinToString(",") { """{"id":"${it.imdbId}","name":"${it.name}"}""" }
+        val result = availableMovies.joinToString(",") {
+            """{"name":"${it.name}","description":"${it.description}","runtime":"${it.runtime}","actors":"${it.actors}","poster":"${it.poster}"}""" }
         return """{"availableMovies":[$result]}"""
     }
 }

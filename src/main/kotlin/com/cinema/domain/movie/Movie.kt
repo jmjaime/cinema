@@ -5,7 +5,10 @@ data class Movie(
     val name: String,
     val releaseDate: String,
     val imdbRating: IMDBRating,
-    val runtime: String
+    val runtime: String,
+    val description: String,
+    val actors: String,
+    val poster: String?
 ) {
     init {
         check(imdbId.isNotBlank()) { "imdbId is mandatory" }

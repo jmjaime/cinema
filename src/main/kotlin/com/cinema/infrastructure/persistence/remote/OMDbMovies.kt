@@ -39,7 +39,10 @@ class OMDbMovies(
                     imdbRating = IMDBRating(
                         rating = movieOMDb.imdbRating,
                         votes = movieOMDb.imdbVotes
-                    )
+                    ),
+                    description = movieOMDb.Plot,
+                    poster = movieOMDb.Poster,
+                    actors = movieOMDb.Actors
                 )
             }
         }

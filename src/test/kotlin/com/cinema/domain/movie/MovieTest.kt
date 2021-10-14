@@ -44,6 +44,9 @@ class MovieTest {
         name = name,
         releaseDate = "3 Jun 1999",
         imdbRating = IMDBRating(rating = "4.5", votes = "109"),
-        runtime = runtime
+        runtime = runtime,
+        description = anyString(),
+        actors = anyString(),
+        poster = anyString()
     )
 }
