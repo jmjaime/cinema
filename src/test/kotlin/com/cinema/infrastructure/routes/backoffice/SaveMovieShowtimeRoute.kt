@@ -1,11 +1,11 @@
-package com.cinema.infrastructure.routes
+package com.cinema.infrastructure.routes.backoffice
 
 import com.cinema.anyMovie
 import com.cinema.anyString
 import com.cinema.domain.movie.Price
 import com.cinema.domain.movie.showtimes.Showtime
 import com.cinema.infrastructure.persistence.memory.InMemoryMovies
-import com.cinema.infrastructure.rest.handlers.SaveMovieShowtimeHandler
+import com.cinema.infrastructure.rest.handlers.backoffice.SaveMovieShowtimeHandler
 import com.cinema.modulesForTest
 import io.ktor.application.*
 import io.ktor.http.*
@@ -66,7 +66,7 @@ class SaveMovieShowtimeRoute : KoinTest {
         )
 
     private fun bodyFrom(showtime: List<Showtime>): String {
-        val result = showtime.joinToString(",") { """{"startAt":"${it.startAt}","price":"${it.price.amount}"}""" } ?: ""
+        val result = showtime.joinToString(",") { """{"startAt":"${it.startAt}","price":"${it.price.amount}"}""" }
         return """[$result]"""
     }
 

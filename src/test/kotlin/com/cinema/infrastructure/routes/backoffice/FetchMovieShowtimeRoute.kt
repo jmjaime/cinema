@@ -1,13 +1,11 @@
-package com.cinema.infrastructure.routes
+package com.cinema.infrastructure.routes.backoffice
 
 import com.cinema.anyDailyShowtime
 import com.cinema.anyMovie
 import com.cinema.anyString
 import com.cinema.domain.movie.Movie
-import com.cinema.domain.movie.Price
 import com.cinema.domain.movie.showtimes.DailyShowtime
 import com.cinema.domain.movie.showtimes.DailyShowtimes
-import com.cinema.domain.movie.showtimes.Showtime
 import com.cinema.infrastructure.persistence.memory.InMemoryMovies
 import com.cinema.modulesForTest
 import io.ktor.application.*
@@ -77,7 +75,6 @@ class FetchMovieShowtimeRoute : KoinTest {
     private fun bodyFrom(dailyShowtime: DailyShowtime): String {
         val showtimes =
             dailyShowtime.showtimes.joinToString(",") { """{"startAt":"${it.startAt}","price":"${it.price.amount}"}""" }
-                ?: ""
         return """{"movieId":"${dailyShowtime.movieId}","day":"${dailyShowtime.day}","showtimes":[$showtimes]}"""
     }
 

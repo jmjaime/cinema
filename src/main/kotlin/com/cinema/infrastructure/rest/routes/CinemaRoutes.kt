@@ -1,12 +1,11 @@
 package com.cinema.infrastructure.rest.routes
 
-import com.cinema.infrastructure.rest.handlers.FetchBillboardHandler
-import com.cinema.infrastructure.rest.handlers.FetchMovieDetailsHandler
-import com.cinema.infrastructure.rest.handlers.FetchMovieTimesHandler
-import com.cinema.infrastructure.rest.handlers.RateMovieHandler
+import com.cinema.infrastructure.rest.handlers.cinema.FetchBillboardHandler
+import com.cinema.infrastructure.rest.handlers.cinema.FetchMovieDetailsHandler
+import com.cinema.infrastructure.rest.handlers.cinema.FetchMovieTimesHandler
+import com.cinema.infrastructure.rest.handlers.cinema.RateMovieHandler
 import io.ktor.application.*
 import io.ktor.http.*
-import io.ktor.http.content.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*

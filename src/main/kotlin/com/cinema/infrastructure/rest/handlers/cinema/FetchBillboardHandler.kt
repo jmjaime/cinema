@@ -1,4 +1,4 @@
-package com.cinema.infrastructure.rest.handlers
+package com.cinema.infrastructure.rest.handlers.cinema
 
 import com.cinema.domain.actions.FetchBillboard
 import com.cinema.infrastructure.rest.models.BillboardModel

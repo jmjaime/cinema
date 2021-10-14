@@ -1,4 +1,4 @@
-package com.cinema.infrastructure.routes
+package com.cinema.infrastructure.routes.cinema
 
 import com.cinema.anyMovie
 import com.cinema.anyDailyShowtime

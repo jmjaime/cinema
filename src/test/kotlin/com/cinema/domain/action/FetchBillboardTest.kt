@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class FetchBillboardTes {
+class FetchBillboardTest {
 
     private lateinit var movies: InMemoryMovies
     private lateinit var dailyShowtimes: InMemoryDailyShowtimes

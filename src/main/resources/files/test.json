@@ -2,7 +2,8 @@
   "swagger": "2.0",
   "info": {
     "version": "0.1",
-    "title": "Cinema API"
+    "title": "Cinema API",
+    "description": "Cinema API documentation"
   },
   "paths": {
     "/movies/{id}/rate": {
@@ -36,6 +37,18 @@
             "schema": {
               "type": "string"
             }
+          },
+          "404": {
+            "description": "Movie not found",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "409": {
+            "description": "Movie already rated",
+            "schema": {
+              "type": "string"
+            }
           }
         }
       }
@@ -56,9 +69,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Definition generated from Swagger Inspector",
+            "description": "Movie projections from week",
             "schema": {
               "$ref": "#/definitions/MovieProjections"
+            }
+          },
+          "404": {
+            "description": "Movie not found",
+            "schema": {
+              "type": "string"
             }
           }
         }
@@ -80,9 +99,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Definition generated from Swagger Inspector",
+            "description": "Movie details",
             "schema": {
               "$ref": "#/definitions/MovieDetails"
+            }
+          },
+          "404": {
+            "description": "Movie not found",
+            "schema": {
+              "type": "string"
             }
           }
         }
@@ -125,9 +150,50 @@
         ],
         "responses": {
           "200": {
-            "description": "Definition generated from Swagger Inspector",
+            "description": "Daily showtimes",
             "schema": {
               "$ref": "#/definitions/DailyShowtime"
+            }
+          },
+          "404": {
+            "description": "Movie or day not found",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Movie id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "dayOfWeek",
+            "in": "path",
+            "description": "day of week",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daily showtimes",
+            "schema": {
+              "$ref": "#/definitions/DailyShowtime"
+            }
+          },
+          "404": {
+            "description": "Movie or day not found",
+            "schema": {
+              "type": "string"
             }
           }
         }
@@ -141,7 +207,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Definition generated from Swagger Inspector",
+            "description": "Available movies to show",
             "schema": {
               "$ref": "#/definitions/Movies"
             }
@@ -157,7 +223,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Definition generated from Swagger Inspector",
+            "description": "Cinem billboard",
             "schema": {
               "$ref": "#/definitions/Billboard"
             }
@@ -224,6 +290,18 @@
         },
         "name": {
           "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "releaseDate": {
+          "type": "string"
+        },
+        "runtime": {
+          "type": "string"
+        },
+        "imdbRating": {
+          "type": "string"
         }
       }
     },
@@ -239,10 +317,19 @@
     },
     "AvailableMovies": {
       "properties": {
-        "id": {
+        "name": {
           "type": "string"
         },
-        "name": {
+        "description": {
+          "type": "string"
+        },
+        "runtime": {
+          "type": "string"
+        },
+        "actors": {
+          "type": "string"
+        },
+        "poster": {
           "type": "string"
         }
       }

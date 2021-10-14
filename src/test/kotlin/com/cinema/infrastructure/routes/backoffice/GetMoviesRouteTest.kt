@@ -1,4 +1,4 @@
-package com.cinema.infrastructure.routes
+package com.cinema.infrastructure.routes.backoffice
 
 import com.cinema.anyMovie
 import com.cinema.domain.movie.Movie

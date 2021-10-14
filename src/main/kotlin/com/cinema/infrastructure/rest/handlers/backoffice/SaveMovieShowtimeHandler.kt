@@ -1,4 +1,4 @@
-package com.cinema.infrastructure.rest.handlers
+package com.cinema.infrastructure.rest.handlers.backoffice
 
 import com.cinema.domain.actions.SaveMovieShowtime
 import com.cinema.domain.movie.Price

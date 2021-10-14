@@ -1,4 +1,4 @@
-package com.cinema.infrastructure.rest.handlers
+package com.cinema.infrastructure.rest.handlers.backoffice
 
 import com.cinema.domain.actions.FetchMovies
 import com.cinema.infrastructure.rest.models.MovieModel

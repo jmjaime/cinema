@@ -1,8 +1,8 @@
 package com.cinema.infrastructure.rest.routes
 
-import com.cinema.infrastructure.rest.handlers.FetchMovieShowtimeHandler
-import com.cinema.infrastructure.rest.handlers.FetchMoviesHandler
-import com.cinema.infrastructure.rest.handlers.SaveMovieShowtimeHandler
+import com.cinema.infrastructure.rest.handlers.backoffice.FetchMovieShowtimeHandler
+import com.cinema.infrastructure.rest.handlers.backoffice.FetchMoviesHandler
+import com.cinema.infrastructure.rest.handlers.backoffice.SaveMovieShowtimeHandler
 import io.ktor.application.*
 import io.ktor.request.*
 import io.ktor.response.*

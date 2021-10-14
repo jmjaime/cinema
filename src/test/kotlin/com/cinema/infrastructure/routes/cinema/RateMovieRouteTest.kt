@@ -1,4 +1,4 @@
-package com.cinema.infrastructure.routes
+package com.cinema.infrastructure.routes.cinema
 
 import com.cinema.anyMovie
 import com.cinema.anyString
@@ -7,7 +7,7 @@ import com.cinema.domain.rating.CustomerVote
 import com.cinema.domain.rating.CustomerVotes
 import com.cinema.domain.rating.Rating
 import com.cinema.infrastructure.persistence.memory.InMemoryMovies
-import com.cinema.infrastructure.rest.handlers.RateMovieHandler
+import com.cinema.infrastructure.rest.handlers.cinema.RateMovieHandler
 import com.cinema.modulesForTest
 import io.ktor.application.*
 import io.ktor.http.*
